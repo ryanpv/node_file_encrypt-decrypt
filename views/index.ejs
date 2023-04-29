@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RV File Encrypt/Decrypt</title>
+</head>
+<body>
+  
+<div class="container col-sm-12" id="choose-files" oncopy="return false" oncut="return false" onpaste="return false">
+  <div class="row">
+
+    <form action="/encrypt/fileUpload" method="post" enctype="multipart/form-data">
+           <b>ENCRYPT File:</b> <input type="file" name="cashbackfiles" id="cashbackfiles"
+           multiple/>
+           <input class="btn btn-primary" type="submit" style="border-radius: 4px;" name="cashbackfiles" value="Upload">
+       </form>
+
+       <br>
+
+      <form action="/retailer/processcashback/supercoins" method="post" enctype="multipart/form-data">
+          <b>DECRYPT File:</b> <input type="file" name="supercoinsfiles" id="supercoinsfile"
+          multiple>
+          <button class="btn btn-primary" type="submit" style="border-radius: 4px;">Upload</button>
+       </form>
+  
+</body>
+</html>
