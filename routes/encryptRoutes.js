@@ -1,6 +1,5 @@
 import { Worker, isMainThread } from "worker_threads";
 import express from "express";
-// import fileEncryptor from "../controllers/fileEncrypt.js";
 import { fileFormUploader } from "../controllers/fileFormUpload.js";
 import { threadSpawner } from "../workerThreads/workerThread.js";
 
@@ -16,14 +15,14 @@ encryptRouter.route("/fileEncrypt/:fileName")
 encryptRouter.route("/directory-encrypt")
   .get((req, res) => {
     if (isMainThread) {
-      const worker = new Worker("./controllers/dirEncrypt.js", { workerData: "parent thread sending data" } )
+      const worker = new Worker("./controllers/dirEncrypt.js", { workerData: "parent thread sending data" });
   
       worker.on("message", (msg) => {
         console.log("return msg from worker: ", msg);
       });
       worker.postMessage("parent thread sending test msg")
     };    
-    res.end()
+    res.end();
   });
 
 export default encryptRouter;

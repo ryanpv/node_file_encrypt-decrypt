@@ -12,6 +12,6 @@ export const threadSpawner = (req, res) => {
       console.log('something happen during exit');
     };
   });
-  worker.postMessage('parent thread says hi')
-  res.end()
+  worker.postMessage('parent thread says hi');
+  res.end();
 };

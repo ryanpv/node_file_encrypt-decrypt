@@ -6,7 +6,7 @@ import { createReadStream, createWriteStream } from "fs";
 const loopDir = () => { readdir("./uploadedFiles", (err, files) => {
   if (err) {
     console.log(err);
-    process.exit(1)
+    process.exit(1);
   };
   files.forEach(async (file) => {
     console.log("loop started");
@@ -14,15 +14,15 @@ const loopDir = () => { readdir("./uploadedFiles", (err, files) => {
     const key = crypto.randomBytes(32);
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv(algorithm, key, iv); // new cipher for each iteration
-    const chunks = []
+    const chunks = [];
     // console.log("file name: ", file)
-    const readableStream = createReadStream("./uploadedFiles/" + file)
+    const readableStream = createReadStream("./uploadedFiles/" + file);
     // const readableStream = createReadStream(`${ basename(dirname("/files/deryptedFiles")) }/${ file }`)
-    const writeableStream = createWriteStream("./encryptedFiles/" + "enc_" + file)
+    const writeableStream = createWriteStream("./encryptedFiles/" + "enc_" + file);
     // const writeableStream = createWriteStream(`${ basename(dirname("/encryptedFiles/.")) }/enc_${ file }`)
     
     for await (const chunk of readableStream) {
-      chunks.push(chunk)
+      chunks.push(chunk);
     };
     
     let encryptFiles = cipher.update(chunks.toString(), "utf-8", "hex")
@@ -33,7 +33,7 @@ const loopDir = () => { readdir("./uploadedFiles", (err, files) => {
 });
 };
 // const receivedData = workerData;
-parentPort.on("message", (msg) => { console.log("parent thread MESSAGE: ", msg) })
-parentPort.postMessage(`parent thread DATA received: '${ workerData }`)
+parentPort.on("message", (msg) => { console.log("parent thread MESSAGE: ", msg) });
+parentPort.postMessage(`parent thread DATA received: '${ workerData }`);
 
 loopDir();

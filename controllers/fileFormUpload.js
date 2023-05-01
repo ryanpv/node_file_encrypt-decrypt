@@ -12,7 +12,7 @@ export const fileFormUploader = (req, res) => {
     
     form.multiples = true;
 
-    form.uploadDir = path.basename(dirname("/uploadedFiles/decryptedFiles"))
+    form.uploadDir = path.basename(dirname("/uploadedFiles/decryptedFiles"));
     console.log('test path', path.basename(dirname("/files/decryptedFiles/.")));
 
     form.on('file', (field, file) => {
@@ -31,7 +31,7 @@ export const fileFormUploader = (req, res) => {
     form.on('end', () => {
       console.log('upload complete');
       // res.redirect('/testPoint')
-      res.end()
+      res.end();
     });
 
     form.parse(req); // must call parse to actually receive the file with data
