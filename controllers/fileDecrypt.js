@@ -10,7 +10,7 @@ export const fileDecryptor = async (req, res) => {
   const cipher = crypto.createDecipheriv(algorithm, key, iv);
   const streamChunks = []
   const readableStream = createReadStream(`${ basename(dirname("/encryptedFiles/.")) }/${ req.params.fileName }`);
-  const writeableStream = createWriteStream(`${ basename(dirname("/files/.")) }/unenc_${ req.params.fileName }`)
+  const writeableStream = createWriteStream(`${ basename(dirname("/uploadedFiles/.")) }/unenc_${ req.params.fileName }`)
 
   for await (const chunk of readableStream) {
     streamChunks.push(chunk)
