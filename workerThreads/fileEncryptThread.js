@@ -3,7 +3,7 @@ import crypto from "crypto";
 import { createReadStream, createWriteStream } from "fs";
 import path, { dirname } from "path";
 
-const fileEncryptor = async () => {
+const fileEncryptWorker = async () => {
   console.log(workerData);
     const algorithm = "aes-256-ctr";
     // const key = "rvs-file-encryptor-decryptor-app" // must be 32 bytes for createCipheriv()
@@ -31,4 +31,4 @@ const fileEncryptor = async () => {
   parentPort.on("message", (msg) => console.log("parent thread: ", msg));
   parentPort.postMessage('hello fromw orker');
 
-  fileEncryptor();
+  fileEncryptWorker();
