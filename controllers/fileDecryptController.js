@@ -8,5 +8,5 @@ export const fileDecryptController = (req, res) => {
       console.log("msg from worker: ", msg);
     });
   };
-  res.send();
+  res.end();
 };

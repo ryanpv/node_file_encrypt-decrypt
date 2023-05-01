@@ -9,9 +9,10 @@ const loopDir = () => {
       console.log(err);
       process.exit(1);
     };
+    console.time("dir loop")
     files.forEach(async (file) => {
       try {
-        console.log("loop started");
+        // console.log("loop started");
         // const algorithm = "aes-256-ctr";
         // const key = crypto.randomBytes(32);
         // const iv = crypto.randomBytes(16);
@@ -39,6 +40,7 @@ const loopDir = () => {
         console.log(err);
       };
     });
+    console.timeEnd("dir loop")
   });
 };
 // const receivedData = workerData;
