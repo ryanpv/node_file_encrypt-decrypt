@@ -9,7 +9,7 @@ export const dirDecryptController = (req, res) => {
         console.log(msg);
         resolve(msg) 
       });
-      worker.on("error", reject(err));
+      worker.on("error", reject);
 
       worker.postMessage("parent thread dirDecryptController says hi");
     });
