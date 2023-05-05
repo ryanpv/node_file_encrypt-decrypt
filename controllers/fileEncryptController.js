@@ -1,15 +1,24 @@
-import { Worker } from "worker_threads";
+import { Worker, isMainThread } from "worker_threads";
 
 export const fileEncryptController = (req, res) => {
-  const worker = new Worker("./workerThreads/fileEncryptThread.js", { workerData: req.params.fileName })
-  worker.on("message", (msg) => console.log("worker msg: ", msg));
-  worker.on("error", (err) => { throw err });
-  worker.on("exit", (code) => {
-    console.log(code);
-    if (code !== 0) {
-      throw new Error(400);
-    } 
-  });
-  worker.postMessage('parent thread says hi');
+  if (isMainThread) {
+    new Promise((resolve, reject) => {
+      const worker = new Worker("./workerThreads/fileEncryptThread.js", { workerData: req.params.fileName })
+      worker.on("message", (msg) => {
+        console.log(msg);
+        resolve(msg)
+      }); 
+      worker.on("error", (err) => reject(err));
+      worker.on("exit", (code) => {
+        console.log(code);
+        if (code !== 0) {
+          reject(new Error(400));
+        } 
+      });
+      
+      worker.postMessage('Message from parent thread');
+    });
+  };
+
   res.end();
 };

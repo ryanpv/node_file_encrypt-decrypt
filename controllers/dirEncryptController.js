@@ -2,12 +2,13 @@ import { Worker, isMainThread } from "worker_threads";
 
 export const dirEncryptController = (req, res) => {
   if (isMainThread) {
-    const worker = new Worker("./workerThreads/dirEncryptThread.js", { workerData: "parent thread sending data" });
-
-    worker.on("message", (msg) => {
-      console.log("Response msg from worker: ", msg);
+    new Promise((resolve, reject) => {
+      const worker = new Worker("./workerThreads/dirEncryptThread.js", { workerData: "parent thread sending data" });
+  
+      worker.on("message", resolve);
+      worker.on("error", reject)
+      worker.postMessage("dirEnc Parent thread saying hi");
     });
-    worker.postMessage("dirEnc Parent thread saying hi");
   };
   res.end();
 };

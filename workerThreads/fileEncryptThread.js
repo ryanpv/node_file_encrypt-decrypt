@@ -4,7 +4,8 @@ import { createReadStream, createWriteStream } from "fs";
 import path, { dirname } from "path";
 
 const fileEncryptWorker = async () => {
-  console.log(workerData);
+  try {
+    console.time('file encrypt')
     const algorithm = "aes-256-ctr";
     // const key = "rvs-file-encryptor-decryptor-app" // must be 32 bytes for createCipheriv()
     const key = crypto.randomBytes(32);
@@ -13,8 +14,10 @@ const fileEncryptWorker = async () => {
     // const base64Iv = iv.toString("base64") // to store iv more easily - needed to initialize decipher
     const cipher = crypto.createCipheriv(algorithm, key, iv);
     
-    const readableStream = createReadStream(`${ path.basename(dirname("/uploadedFiles/decryptedFiles")) }/${ workerData }`);
-    const writeableStream = createWriteStream(`${ path.basename(dirname("/encryptedFiles/.")) }/enc15_${ workerData }`);
+    const readableStream = createReadStream(`${ path.basename(dirname("../uploadedFiles/decryptedFiles")) }/${ workerData }`);
+    // const readableStream = createReadStream("../uploadedFiles/pokejson.txt");
+    const writeableStream = createWriteStream(`${ path.basename(dirname("../encryptedFiles/.")) }/enc15_${ workerData }`);
+    // const writeableStream = createWriteStream(`${ path.basename(dirname("../encryptedFiles")) }/enc15_pokejson.txt`);
     const streamChunks = [];
   
     for await (const chunk of readableStream) {
@@ -25,10 +28,15 @@ const fileEncryptWorker = async () => {
     let encryptFile = cipher.update(streamChunks.toString(), "utf-8", "hex");
     encryptFile += cipher.final("hex");
     
-    writeableStream.write(encryptFile) ;
+    writeableStream.write(encryptFile);
+
+    console.timeEnd('file encrypt')
+  } catch (err) {
+    console.log(err);
+    };
   };
   
-  parentPort.on("message", (msg) => console.log("parent thread: ", msg));
-  parentPort.postMessage('hello fromw orker');
+  // parentPort.on("message", (msg) => console.log("parent thread: ", msg));
+  // parentPort.postMessage("Msg from worker thread.");
 
   fileEncryptWorker();
