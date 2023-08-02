@@ -31,12 +31,12 @@ const fileEncryptWorker = async () => {
     writeableStream.write(encryptFile);
 
     console.timeEnd('file encrypt')
+    // parentPort.postMessage("Msg from worker thread.");
   } catch (err) {
     console.log(err);
-    };
   };
-  
-  // parentPort.on("message", (msg) => console.log("parent thread: ", msg));
-  // parentPort.postMessage("Msg from worker thread.");
+};
+
+// parentPort.on("message", (msg) => console.log("parent thread: ", msg));
 
   fileEncryptWorker();
